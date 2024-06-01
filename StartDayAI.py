@@ -59,35 +59,39 @@ def main():
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Emotion and Weather Info</title>
+        <title>StartDay - Emotion and Weather Info</title>
         <style>
             body {
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 height: 100vh;
-                background-color: #f0f0f0;
+                background-image: url('painting-mountain-lake-with-mountain-background_188544-9126.jpeg');
+                background-size: cover;
+                background-position: center;
                 font-family: Arial, sans-serif;
+                margin: 0;
+                color: #ffffff;
             }
             .container {
-                background-color: white;
+                background-color: rgba(0, 0, 0, 0.7);
                 padding: 20px;
                 border-radius: 10px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
                 text-align: center;
             }
             h1 {
-                color: #333;
+                font-size: 2em;
+                margin-bottom: 20px;
             }
             p {
                 font-size: 1.2em;
-                color: #555;
+                margin: 10px 0;
             }
         </style>
     </head>
     <body>
         <div class="container">
-            <h1>StartDay </h1>
+            <h1>StartDay</h1>
             <p><strong>Detected emotion:</strong> {{ emotion }}</p>
             <p><strong>Motivational phrase:</strong> {{ phrase }}</p>
             <p>{{ weather_info }}</p>
