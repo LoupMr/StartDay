@@ -1,33 +1,18 @@
 import random
 import requests
+from flask import Flask, render_template_string
 
 # Constants
 API_KEY = "781b7e58fa5b4a818713d9c9fa431c37"  # Your Weatherbit API key
 WEATHER_API_URL = "https://api.weatherbit.io/v2.0/current"
 
+app = Flask(__name__)
+
 def detect_emotion(image_path):
-    """
-    Simulate emotion detection by randomly selecting an emotion.
-    
-    Args:
-    image_path (str): Path to the image file.
-    
-    Returns:
-    str: Detected emotion.
-    """
     emotions = ["happy", "sad", "neutral", "angry"]
     return random.choice(emotions)
 
 def get_motivational_phrase(emotion):
-    """
-    Get a motivational phrase based on the detected emotion.
-    
-    Args:
-    emotion (str): Detected emotion.
-    
-    Returns:
-    str: Motivational phrase.
-    """
     phrases = {
         "happy": "Keep shining!",
         "sad": "It's a new day, keep pushing forward!",
@@ -37,16 +22,6 @@ def get_motivational_phrase(emotion):
     return phrases.get(emotion, "Have a great day!")
 
 def fetch_weather_data(lat, lon):
-    """
-    Fetch weather information from the Weatherbit API based on latitude and longitude.
-    
-    Args:
-    lat (float): Latitude of the location.
-    lon (float): Longitude of the location.
-    
-    Returns:
-    dict: Weather data if the request is successful, None otherwise.
-    """
     params = {
         'lat': lat,
         'lon': lon,
@@ -61,25 +36,15 @@ def fetch_weather_data(lat, lon):
         return None
 
 def get_weather(lat, lon):
-    """
-    Get weather information formatted as a string based on latitude and longitude.
-    
-    Args:
-    lat (float): Latitude of the location.
-    lon (float): Longitude of the location.
-    
-    Returns:
-    str: Formatted weather information or an error message.
-    """
     weather_data = fetch_weather_data(lat, lon)
-    if weather_data and "data" in weather_data:
+    if (weather_data and "data" in weather_data):
         city_name = weather_data["data"][0]["city_name"]
         weather = weather_data["data"][0]["weather"]["description"]
         temperature = weather_data["data"][0]["temp"]
         return f"The current weather in {city_name} is {weather} with a temperature of {temperature}°C."
     return "Weather information not available."
 
-# Simulated usage example
+@app.route('/')
 def main():
     image_path = "user_photo.jpg"  # Simulated image path
     lat, lon = 41.3851, 2.1734  # Coordinates for Barcelona
@@ -88,8 +53,48 @@ def main():
     phrase = get_motivational_phrase(emotion)
     weather_info = get_weather(lat, lon)
 
-    print(f"Detected emotion: {emotion}, Motivational phrase: {phrase}")
-    print(weather_info)
+    return render_template_string("""
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Emotion and Weather Info</title>
+        <style>
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                background-color: #f0f0f0;
+                font-family: Arial, sans-serif;
+            }
+            .container {
+                background-color: white;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                text-align: center;
+            }
+            h1 {
+                color: #333;
+            }
+            p {
+                font-size: 1.2em;
+                color: #555;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Emotion and Weather Information</h1>
+            <p><strong>Detected emotion:</strong> {{ emotion }}</p>
+            <p><strong>Motivational phrase:</strong> {{ phrase }}</p>
+            <p>{{ weather_info }}</p>
+        </div>
+    </body>
+    </html>
+    """, emotion=emotion, phrase=phrase, weather_info=weather_info)
 
 if __name__ == "__main__":
-    main()
+    app.run(debug=True)
