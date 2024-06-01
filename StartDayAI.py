@@ -87,7 +87,7 @@ def main():
     </head>
     <body>
         <div class="container">
-            <h1>Emotion and Weather Information</h1>
+            <h1>StartDay </h1>
             <p><strong>Detected emotion:</strong> {{ emotion }}</p>
             <p><strong>Motivational phrase:</strong> {{ phrase }}</p>
             <p>{{ weather_info }}</p>
