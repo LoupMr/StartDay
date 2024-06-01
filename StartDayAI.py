@@ -66,7 +66,7 @@ def main():
                 justify-content: center;
                 align-items: center;
                 height: 100vh;
-                background-image: url('painting-mountain-lake-with-mountain-background_188544-9126.jpeg');
+                background-image: url('painting-mountain-lake-with-mountain-background_188544-9126.jpg');
                 background-size: cover;
                 background-position: center;
                 font-family: Arial, sans-serif;
